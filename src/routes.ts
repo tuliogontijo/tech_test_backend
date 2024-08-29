@@ -1,17 +1,12 @@
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
+import MeasureControllerIntance from './factories/MeasureControllerFactory';
 
 const router = Router();
 
-router.post('/upload', (req: Request, res: Response) => {
-  res.json({ message: 'Teste!' });
-});
+const { create, confirm, getAll } = MeasureControllerIntance;
 
-router.patch('/confirm', (req: Request, res: Response) => {
-  res.json({ message: 'Teste!' });
-});
-
-router.get('/:customer_code/list', (req: Request, res: Response) => {
-  res.json({ message: 'Teste!' });
-});
+router.post('/upload', create);
+router.patch('/confirm', confirm);
+router.get('/:customer_code/list', getAll);
 
 export default router;
