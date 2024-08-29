@@ -1,15 +1,10 @@
-import express, { Request, Response, Router } from 'express';
+import express from 'express';
+import router from './routes';
 
 const app = express();
 
-const route = Router();
-
 app.use(express.json());
 
-route.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'Teste!' });
-});
-
-app.use(route);
+app.use(router);
 
 app.listen(3000, () => 'server running on port 3000');
