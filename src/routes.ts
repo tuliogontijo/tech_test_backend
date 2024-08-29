@@ -1,12 +1,10 @@
 import { Router } from 'express';
-import MeasureControllerIntance from './factories/MeasureControllerFactory';
+import MeasureControllerIntance from './app/factories/MeasureControllerFactory';
 
 const router = Router();
 
-const { create, confirm, getAll } = MeasureControllerIntance;
-
-router.post('/upload', create);
-router.patch('/confirm', confirm);
-router.get('/:customer_code/list', getAll);
+router.post('/upload', MeasureControllerIntance.create);
+router.patch('/confirm', MeasureControllerIntance.confirm);
+router.get('/:customer_code/list', MeasureControllerIntance.getAll);
 
 export default router;
