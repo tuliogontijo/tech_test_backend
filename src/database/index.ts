@@ -5,15 +5,12 @@ const pool = new Pool({
   port: 5432,
   user: 'root',
   password: 'root',
-  database: 'test_shopper',
+  database: 'teste_shopper',
 });
 
 pool.connect();
 
-exports.query = async (
-  query: string,
-  values: string[],
-): Promise<string | string[]> => {
+export const query = async <T>(query: string, values: string[]): Promise<T[]> => {
   const { rows } = await pool.query(query, values);
   return rows;
 };

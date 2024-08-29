@@ -11,5 +11,5 @@ CREATE TABLE IF NOT EXISTS measures (
     has_confirmed BOOLEAN DEFAULT FALSE,
     image_url VARCHAR,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE (customer_code, measure_type, DATE_TRUNC('month', measure_datetime))
+    UNIQUE (customer_code, measure_type)
 );

@@ -3,5 +3,6 @@
   "endOfLine": "crlf",
   "semi": true,
   "arrowParens": "always",
-  "singleQuote": true
+  "singleQuote": true,
+  "printWidth": 160
 }
