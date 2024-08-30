@@ -3,14 +3,16 @@ import * as paramsTypes from '../types/MeasureServiceParamsTypes';
 import * as returnTypes from '../types/MeasureServiceReturnTypes';
 import { Tmeasure_type } from '../types/MeasureType';
 
+import { saveImage } from '../utils';
+
 import MeasureRespositoryIntance from '../factories/MeasureRepositoryFactory';
 
 export default class MeasureService implements IMeasureService {
   async createService(params: paramsTypes.TcreateServiceParams): Promise<returnTypes.TcreateServiceReturn> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { image, customer_code, measure_datetime, measure_type } = params;
-    //TODO: valor obtivo após persistir imagem localmente e gerar URL
-    const image_url = '';
+    const { image, customer_code, measure_datetime, measure_type, req } = params;
+
+    const image_url = saveImage(image, customer_code, req);
+
     //TODO: valor obtido da LLM
     const measure_value = 2334;
 

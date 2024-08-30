@@ -1,3 +1,5 @@
+import { Request } from 'express';
+
 import { Tmeasure_type } from './MeasureType';
 
 export type TcreateServiceParams = {
@@ -5,6 +7,7 @@ export type TcreateServiceParams = {
   customer_code: string;
   measure_datetime: string;
   measure_type: Tmeasure_type;
+  req: Request;
 };
 
 export type TconfirmServiceParams = {

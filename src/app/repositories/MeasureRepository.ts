@@ -12,7 +12,7 @@ export default class MeasureRepository implements IMeasureRepository {
       `
       INSERT INTO measures(measure_value, measure_datetime, measure_type, customer_code, image_url)
       VALUES($1, $2, $3, $4, $5)
-      RETURNING id
+      RETURNING *
     `,
       [measure_value, measure_datetime, measure_type, customer_code, image_url],
     );

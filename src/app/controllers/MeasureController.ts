@@ -29,6 +29,7 @@ export default class MeasureController implements IMeasureController {
       customer_code,
       measure_datetime,
       measure_type,
+      req,
     });
 
     res.status(200).json(response);
