@@ -7,12 +7,14 @@ import MeasureRespositoryIntance from '../factories/MeasureRepositoryFactory';
 
 export default class MeasureService implements IMeasureService {
   async createService(params: paramsTypes.TcreateServiceParams): Promise<returnTypes.TcreateServiceReturn> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { image, customer_code, measure_datetime, measure_type } = params;
+    //TODO: valor obtivo após persistir imagem localmente e gerar URL
+    const image_url = '';
+    //TODO: valor obtido da LLM
+    const measure_value = 2334;
 
-    const image_url = 'TODO: valor obtivo após persistir imagem localmente e gerar URL' + image;
-    const measure_value = Number('TODO: valor obtido da LLM');
-
-    const { measure_id } = await MeasureRespositoryIntance.insert({
+    const { measure_uuid } = await MeasureRespositoryIntance.insert({
       customer_code,
       image_url,
       measure_datetime,
@@ -20,13 +22,13 @@ export default class MeasureService implements IMeasureService {
       measure_value: measure_value.toString(),
     });
 
-    return { image_url, measure_id, measure_value };
+    return { image_url, measure_uuid, measure_value };
   }
 
   async getOne(params: paramsTypes.TgetOneParams): Promise<returnTypes.TgetOneReturn> {
-    if ('measure_id' in Object.keys(params)) {
-      const { measure_id } = params;
-      const measure = await MeasureRespositoryIntance.getOneById({ measure_id: measure_id as string });
+    if (Object.keys(params).includes('measure_uuid')) {
+      const { measure_uuid } = params;
+      const measure = await MeasureRespositoryIntance.getOneById({ measure_uuid: measure_uuid as string });
       return measure;
     }
 
@@ -34,7 +36,7 @@ export default class MeasureService implements IMeasureService {
 
     const measure = await MeasureRespositoryIntance.getOneByCostumerIDMonthAndType({
       customer_code: customer_code as string,
-      measure_month: measure_month as string,
+      measure_month: measure_month as number,
       measure_type: measure_type as Tmeasure_type,
     });
 
@@ -42,9 +44,9 @@ export default class MeasureService implements IMeasureService {
   }
 
   async confirmService(params: paramsTypes.TconfirmServiceParams): Promise<returnTypes.TconfirmServiceReturn> {
-    const { confirmed_value, measure_id } = params;
+    const { confirmed_value, measure_uuid } = params;
 
-    const measure = await MeasureRespositoryIntance.updateConfirmStatus({ confirmed_value, measure_id });
+    const measure = await MeasureRespositoryIntance.updateConfirmStatus({ confirmed_value, measure_uuid });
 
     return measure;
   }

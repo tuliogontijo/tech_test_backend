@@ -9,7 +9,7 @@ export type TinsertParams = {
 };
 
 export type TupdateConfirmStatusParams = {
-  measure_id: string;
+  measure_uuid: string;
   confirmed_value: number;
 };
 
@@ -19,11 +19,11 @@ export type TlistAllParams = {
 };
 
 export type TgetOneByIdParams = {
-  measure_id: string;
+  measure_uuid: string;
 };
 
 export type TgetOneByCostumerIDMonthAndTypeParams = {
   customer_code: string;
-  measure_month: string;
+  measure_month: number;
   measure_type: Tmeasure_type;
 };

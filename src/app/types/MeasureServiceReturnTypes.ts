@@ -1,7 +1,7 @@
 export type TcreateServiceReturn = {
   image_url: string;
   measure_value: number;
-  measure_id: string;
+  measure_uuid: string;
 };
 
 export type TconfirmServiceReturn = {

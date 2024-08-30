@@ -10,7 +10,7 @@ export default class MeasureRepository implements IMeasureRepository {
 
     const [row] = await query<returnTypes.TinsertReturn>(
       `
-      INSERT INTO measures
+      INSERT INTO measures(measure_value, measure_datetime, measure_type, customer_code, image_url)
       VALUES($1, $2, $3, $4, $5)
       RETURNING id
     `,
@@ -25,28 +25,27 @@ export default class MeasureRepository implements IMeasureRepository {
 
     const [row] = await query<returnTypes.TgetOneReturn>(
       `
-      SELECT id
+      SELECT *
       FROM measures
-      WHERE customer_code=$1, month(measure_datetime) = $2, measure_type = $3
-      RETURNING *
+      WHERE customer_code=$1 AND EXTRACT(MONTH FROM measure_datetime)=$2 AND measure_type=$3
     `,
-      [customer_code, measure_month, measure_type],
+      [customer_code, measure_month.toString(), measure_type],
     );
 
     return row;
   }
 
   async updateConfirmStatus(params: paramsTypes.TupdateConfirmStatusParams): Promise<returnTypes.TupdateConfirmStatusReturn> {
-    const { confirmed_value, measure_id } = params;
+    const { confirmed_value, measure_uuid } = params;
 
     const [row] = await query<returnTypes.TupdateConfirmStatusReturn>(
       `
       UPDATE measures
-      SET measure_value=$1
+      SET measure_value=$1, has_confirmed=true
       WHERE id=$2
       RETURNING *
     `,
-      [confirmed_value.toString(), measure_id],
+      [confirmed_value.toString(), measure_uuid],
     );
 
     return row;
@@ -59,26 +58,24 @@ export default class MeasureRepository implements IMeasureRepository {
       `
       SELECT *
       FROM measures
-      WHERE customer_code=$1 ${measure_type && ', measure_type='}$2
-      RETURNING *
+      WHERE customer_code=$1 ${measure_type && 'AND measure_type = $2'}
     `,
-      [customer_code, measure_type],
+      measure_type ? [customer_code, measure_type] : [customer_code],
     );
 
     return rows;
   }
 
   async getOneById(params: paramsTypes.TgetOneByIdParams): Promise<returnTypes.TgetOneReturn> {
-    const { measure_id } = params;
+    const { measure_uuid } = params;
 
     const [row] = await query<returnTypes.TgetOneReturn>(
       `
       SELECT *
       FROM measures
-      WHERE measure_id=$1
-      RETURNING *
+      WHERE id=$1
     `,
-      [measure_id],
+      [measure_uuid],
     );
 
     return row;

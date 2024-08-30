@@ -8,7 +8,7 @@ export type TcreateServiceParams = {
 };
 
 export type TconfirmServiceParams = {
-  measure_id: string;
+  measure_uuid: string;
   confirmed_value: number;
 };
 
@@ -18,8 +18,8 @@ export type TgetAllServiceParams = {
 };
 
 export type TgetOneParams = {
-  measure_id?: string;
+  measure_uuid?: string;
   customer_code?: string;
-  measure_month?: string;
+  measure_month?: number;
   measure_type?: Tmeasure_type;
 };

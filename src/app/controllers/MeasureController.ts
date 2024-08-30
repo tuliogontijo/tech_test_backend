@@ -10,7 +10,8 @@ export default class MeasureController implements IMeasureController {
     const { image, customer_code, measure_datetime, measure_type } = req.body;
     //TODO: validar parametros
 
-    const measure_month = 'extrair mês de measure_datetime';
+    const date = new Date(measure_datetime);
+    const measure_month = date.getMonth() + 1;
 
     const measureExists = await MeasureServiceIntance.getOne({
       customer_code,
@@ -19,7 +20,7 @@ export default class MeasureController implements IMeasureController {
     });
 
     if (measureExists) {
-      res.status(409).json({ error_code: '', error_description: '' }); //TODO: AJUSTAR ERRO
+      res.status(409).json({ error_code: '', error_description: 'ALREADY SET THIS MONTH' }); //TODO: AJUSTAR ERRO
       return;
     }
 
@@ -34,30 +35,30 @@ export default class MeasureController implements IMeasureController {
   }
 
   async confirm(req: Request, res: Response): Promise<void> {
-    const { measure_id, confirmed_value } = req.body;
+    const { measure_uuid, confirmed_value } = req.body;
 
     const measure = await MeasureServiceIntance.getOne({
-      measure_id,
+      measure_uuid,
     });
 
     if (!measure) {
-      res.status(404).json({ error_code: '', error_description: '' }); //TODO: AJUSTAR ERRO - NÃO ENCONTRADA
+      res.status(404).json({ error_code: '', error_description: 'NOT FOUND' }); //TODO: AJUSTAR ERRO - NÃO ENCONTRADA
       return;
     }
 
     const { has_confirmed } = measure;
 
     if (has_confirmed) {
-      res.status(409).json({ error_code: '', error_description: '' }); //TODO: AJUSTAR ERRO - JÁ CONIFRMADA
+      res.status(409).json({ error_code: '', error_description: 'ALREADRY CONFIRMED' }); //TODO: AJUSTAR ERRO - JÁ CONIFRMADA
       return;
     }
 
-    const response = await MeasureServiceIntance.confirmService({
-      measure_id,
+    await MeasureServiceIntance.confirmService({
+      measure_uuid,
       confirmed_value,
     });
 
-    res.status(200).json(response);
+    res.status(200).json({ success: true });
   }
 
   async getAll(req: Request, res: Response): Promise<void> {
@@ -77,7 +78,7 @@ export default class MeasureController implements IMeasureController {
     });
 
     if (response.measures.length < 1) {
-      res.status(404).json({ error_code: '', error_description: '' }); //TODO: AJUSTAR ERRO - SEM MEDIÇÕES
+      res.status(404).json({ error_code: '', error_description: 'NOT FOUND' }); //TODO: AJUSTAR ERRO - SEM MEDIÇÕES
       return;
     }
 

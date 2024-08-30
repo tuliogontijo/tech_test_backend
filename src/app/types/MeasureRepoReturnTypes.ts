@@ -1,5 +1,5 @@
 export type TinsertReturn = {
-  measure_id: string;
+  measure_uuid: string;
 };
 
 export type TupdateConfirmStatusReturn = {
