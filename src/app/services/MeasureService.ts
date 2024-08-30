@@ -3,7 +3,7 @@ import * as paramsTypes from '../types/MeasureServiceParamsTypes';
 import * as returnTypes from '../types/MeasureServiceReturnTypes';
 import { Tmeasure_type } from '../types/MeasureType';
 
-import { saveImage } from '../utils';
+import { getAIMeasureValueFromImage, saveAndGetImgURL } from '../utils';
 
 import MeasureRespositoryIntance from '../factories/MeasureRepositoryFactory';
 
@@ -11,20 +11,19 @@ export default class MeasureService implements IMeasureService {
   async createService(params: paramsTypes.TcreateServiceParams): Promise<returnTypes.TcreateServiceReturn> {
     const { image, customer_code, measure_datetime, measure_type, req } = params;
 
-    const image_url = saveImage(image, customer_code, req);
+    const { image_url, path } = saveAndGetImgURL(image, customer_code, req);
 
-    //TODO: valor obtido da LLM
-    const measure_value = 2334;
+    const measure_value = await getAIMeasureValueFromImage(path);
 
     const { measure_uuid } = await MeasureRespositoryIntance.insert({
       customer_code,
       image_url,
       measure_datetime,
       measure_type,
-      measure_value: measure_value.toString(),
+      measure_value,
     });
 
-    return { image_url, measure_uuid, measure_value };
+    return { image_url, measure_uuid, measure_value: Number(measure_value) };
   }
 
   async getOne(params: paramsTypes.TgetOneParams): Promise<returnTypes.TgetOneReturn> {
