@@ -3,12 +3,15 @@ import * as paramsTypes from '../types/MeasureServiceParamsTypes';
 import * as returnTypes from '../types/MeasureServiceReturnTypes';
 import { Tmeasure_type } from '../types/MeasureType';
 
-import { getAIMeasureValueFromImage, saveAndGetImgURL } from '../utils';
+import { getAIMeasureValueFromImage } from '../utils/geminiHandler';
+import { saveAndGetImgURL } from '../utils/imageHandler';
 
 import MeasureRespositoryIntance from '../factories/MeasureRepositoryFactory';
 
 export default class MeasureService implements IMeasureService {
-  async createService(params: paramsTypes.TcreateServiceParams): Promise<returnTypes.TcreateServiceReturn> {
+  async createService(
+    params: paramsTypes.TcreateServiceParams,
+  ): Promise<returnTypes.TcreateServiceReturn> {
     const { image, customer_code, measure_datetime, measure_type, req } = params;
 
     const { image_url, path } = saveAndGetImgURL(image, customer_code, req);
@@ -29,7 +32,9 @@ export default class MeasureService implements IMeasureService {
   async getOne(params: paramsTypes.TgetOneParams): Promise<returnTypes.TgetOneReturn> {
     if (Object.keys(params).includes('measure_uuid')) {
       const { measure_uuid } = params;
-      const measure = await MeasureRespositoryIntance.getOneById({ measure_uuid: measure_uuid as string });
+      const measure = await MeasureRespositoryIntance.getOneById({
+        measure_uuid: measure_uuid as string,
+      });
       return measure;
     }
 
@@ -44,17 +49,27 @@ export default class MeasureService implements IMeasureService {
     return measure;
   }
 
-  async confirmService(params: paramsTypes.TconfirmServiceParams): Promise<returnTypes.TconfirmServiceReturn> {
+  async confirmService(
+    params: paramsTypes.TconfirmServiceParams,
+  ): Promise<returnTypes.TconfirmServiceReturn> {
     const { confirmed_value, measure_uuid } = params;
 
-    const measure = await MeasureRespositoryIntance.updateConfirmStatus({ confirmed_value, measure_uuid });
+    const measure = await MeasureRespositoryIntance.updateConfirmStatus({
+      confirmed_value,
+      measure_uuid,
+    });
 
     return measure;
   }
-  async getAllService(params: paramsTypes.TgetAllServiceParams): Promise<returnTypes.TgetAllServiceReturn> {
+  async getAllService(
+    params: paramsTypes.TgetAllServiceParams,
+  ): Promise<returnTypes.TgetAllServiceReturn> {
     const { customer_code, measure_type } = params;
 
-    const measures = await MeasureRespositoryIntance.listAll({ customer_code, measure_type });
+    const measures = await MeasureRespositoryIntance.listAll({
+      customer_code,
+      measure_type,
+    });
 
     return {
       customer_code,

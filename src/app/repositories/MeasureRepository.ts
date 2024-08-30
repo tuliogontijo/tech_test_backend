@@ -20,7 +20,9 @@ export default class MeasureRepository implements IMeasureRepository {
     return row;
   }
 
-  async getOneByCostumerIDMonthAndType(params: paramsTypes.TgetOneByCostumerIDMonthAndTypeParams): Promise<returnTypes.TgetOneReturn> {
+  async getOneByCostumerIDMonthAndType(
+    params: paramsTypes.TgetOneByCostumerIDMonthAndTypeParams,
+  ): Promise<returnTypes.TgetOneReturn> {
     const { customer_code, measure_month, measure_type } = params;
 
     const [row] = await query<returnTypes.TgetOneReturn>(
@@ -35,7 +37,9 @@ export default class MeasureRepository implements IMeasureRepository {
     return row;
   }
 
-  async updateConfirmStatus(params: paramsTypes.TupdateConfirmStatusParams): Promise<returnTypes.TupdateConfirmStatusReturn> {
+  async updateConfirmStatus(
+    params: paramsTypes.TupdateConfirmStatusParams,
+  ): Promise<returnTypes.TupdateConfirmStatusReturn> {
     const { confirmed_value, measure_uuid } = params;
 
     const [row] = await query<returnTypes.TupdateConfirmStatusReturn>(

@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 
 import 'dotenv/config';
@@ -14,4 +14,11 @@ app.use('/bucket', express.static(path.join(__dirname, 'bucket')));
 
 app.use(router);
 
-app.listen(process.env.PORT, () => console.log(`Server started at http://localhost:${process.env.PORT}`));
+app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(error);
+  res.sendStatus(500);
+});
+
+const port = Number(process.env.PORT) | 3000;
+
+app.listen(port, () => console.log(`Server started at http://localhost:${port}`));
