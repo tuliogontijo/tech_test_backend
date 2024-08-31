@@ -66,7 +66,7 @@ export default class MeasureController implements IMeasureController {
       res.status(409).json({
         error_code: ERR_CODE.CONFIRM_DUPLICATE,
         error_description: ERR_DESC.MONTH_MEASURE_ALREADY_DONE,
-      }); //TODO: AJUSTAR ERRO - JÁ CONIFRMADA
+      });
       return;
     }
 

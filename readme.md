@@ -1,4 +1,4 @@
-# Serviço de Leitura de Medidores - Shopper.com.br
+# Teste técnico Shopper.com.br - Serviço de Leitura de Medidores
 
 Bem-vindo ao repositório do projeto de teste técnico para a vaga de desenvolvedor na Shopper.com.br! Este projeto tem como objetivo construir um serviço de back-end que gerencia a leitura de medidores de água e gás utilizando imagens.
 
@@ -49,4 +49,5 @@ Este projeto é composto por um serviço de back-end desenvolvido em Node.js com
 - PATCH /confirm
 - GET /<customer_code>/list
 
-Os endpoints podem
+
+Uma coleção com os endpoints para Postman está disponível [aqui](https://raw.githubusercontent.com/tuliogontijo/tech_test_backend/main/postman_collection.json).
