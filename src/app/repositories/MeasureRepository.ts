@@ -23,15 +23,18 @@ export default class MeasureRepository implements IMeasureRepository {
   async getOneByCostumerIDMonthAndType(
     params: paramsTypes.TgetOneByCostumerIDMonthAndTypeParams,
   ): Promise<returnTypes.TgetOneReturn> {
-    const { customer_code, measure_month, measure_type } = params;
+    const { customer_code, measure_month, measure_year, measure_type } = params;
 
     const [row] = await query<returnTypes.TgetOneReturn>(
       `
       SELECT *
       FROM measures
-      WHERE customer_code=$1 AND EXTRACT(MONTH FROM measure_datetime)=$2 AND measure_type=$3
+      WHERE customer_code=$1
+      AND EXTRACT(MONTH FROM measure_datetime)=$2
+      AND EXTRACT(YEAR FROM measure_datetime)=$3
+      AND measure_type=$4
     `,
-      [customer_code, measure_month.toString(), measure_type],
+      [customer_code, measure_month.toString(), measure_year.toString(), measure_type],
     );
 
     return row;

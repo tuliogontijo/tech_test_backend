@@ -1,5 +1,3 @@
-CREATE DATABASE teste_shopper;
-
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE
@@ -17,5 +15,6 @@ CREATE TABLE
 CREATE UNIQUE INDEX idx_unique_measure ON measures (
   customer_code,
   measure_type,
-  DATE_TRUNC ('month', measure_datetime)
+  DATE_TRUNC ('month', measure_datetime),
+  DATE_TRUNC ('year', measure_datetime)
 );

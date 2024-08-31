@@ -24,5 +24,6 @@ export type TgetOneParams = {
   measure_uuid?: string;
   customer_code?: string;
   measure_month?: number;
+  measure_year?: number;
   measure_type?: Tmeasure_type;
 };

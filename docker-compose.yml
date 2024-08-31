@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16
+    container_name: pg
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: teste_shopper
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./src/database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+  app:
+    build: .
+    container_name: node
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: teste_shopper
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/app
+    command: ['yarn', 'dev']
+
+

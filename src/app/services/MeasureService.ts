@@ -38,11 +38,12 @@ export default class MeasureService implements IMeasureService {
       return measure;
     }
 
-    const { customer_code, measure_month, measure_type } = params;
+    const { customer_code, measure_month, measure_year, measure_type } = params;
 
     const measure = await MeasureRespositoryIntance.getOneByCostumerIDMonthAndType({
       customer_code: customer_code as string,
       measure_month: measure_month as number,
+      measure_year: measure_year as number,
       measure_type: measure_type as Tmeasure_type,
     });
 

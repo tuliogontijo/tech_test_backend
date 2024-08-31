@@ -25,5 +25,6 @@ export type TgetOneByIdParams = {
 export type TgetOneByCostumerIDMonthAndTypeParams = {
   customer_code: string;
   measure_month: number;
+  measure_year: number;
   measure_type: Tmeasure_type;
 };

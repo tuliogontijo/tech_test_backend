@@ -15,10 +15,12 @@ export default class MeasureController implements IMeasureController {
     if (!isCreateParamsValid(req.body, res)) return;
 
     const measure_month = new Date(measure_datetime).getMonth() + 1;
+    const measure_year = new Date(measure_datetime).getFullYear();
 
     const measureExists = await MeasureServiceIntance.getOne({
       customer_code,
       measure_month,
+      measure_year,
       measure_type,
     });
 
